@@ -17,7 +17,7 @@ INCLUDES          =  -Iinc
 SRC_DIR           =  src
 SRCS              :=  $(wildcard $(SRC_DIR)/*.c)
 BUILD_DIR         =  build
-RELEASE_DIR      =  release
+RELEASE_DIR       =  release
 OBJS              := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
 
 # Compiler settings
