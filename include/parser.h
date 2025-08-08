@@ -2,6 +2,8 @@
 #define PARSER_H
 
 #include <stdint.h>
+#include <stdio.h>
+#include "stackvm.h"
 
 /**
  * @brief Parses a StackVM instruction
@@ -10,6 +12,6 @@
  * @note This function extracts the opcode and operand from the instruction.
  *       It is called in the decode stage of the StackVM execution cycle.
  */
-uint32_t parse_instruction(uint32_t instr);
+uint32_t parse_instruction(char *file_path);
 
 #endif // PARSER_H

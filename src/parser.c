@@ -1,4 +1,8 @@
+#include "defs.h"
 #include "parser.h"
+#include <ctype.h>
+
+#define issign(x) ((x == '-') || (x == '+'))
 
 uint32_t parse_instruction(char *file_path)
 {
@@ -8,58 +12,30 @@ uint32_t parse_instruction(char *file_path)
             return 0;
         }
 
-        char *token;
-        while (fscanf(file, "%x", &token) == 1) {
-                switch (*token)
+        char buffer[STACK_MEMORY_SIZE];
+        int index = 0;
+        while (fgets(buffer, STACK_MEMORY_SIZE, file)) {
+                
+                while (buffer[index] != ';')
                 {
-                case '-':
-                        /* code */
-                        break;
-                case '+':
-                        /* code */
-                        break;
-                case '*':
-                        /* code */
-                        break;
-                case '/':
-                        /* code */
-                        break;
-                case '%':
-                        /* code */
-                        break;
-                case '&':
-                        /* code */
-                        break;
-                case '|':
-                        /* code */
-                        break;
-                case '^':
-                        /* code */
-                        break;
-                case '~':
-                        /* code */
-                        break;
-                case '<':
-                        /* code */
-                        break;
-                case '>':
-                        /* code */
-                        break;
-                case '=':
-                        /* code */
-                        break;
-                case '!':
-                        /* code */
-                        break;
-                default:
-                        break;
+                        if (issign(buffer[index]) && buffer[index + 1] != ' ')
+                        {
+                                /* code */
+                        }
+                        
+                        fprintf(stdout, "%c", buffer[index]);
+                        index++;
                 }
-            uint32_t opcode = GET_OPCODE(instr);
-            uint32_t operand = GET_DATA(instr);
-            fclose(file);
-            return operand;
+                                
         }
 
         fclose(file);
+        return 0;
+}
+
+int main(int argc, char const *argv[])
+{
+        parse_instruction("example/simple.sram");
+        // printf("%d", atoi('+'));
         return 0;
 }

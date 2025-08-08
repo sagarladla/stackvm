@@ -13,9 +13,12 @@
 PROJECT = stackvm
 
 # Source files
-INCLUDES          =  -Iinclude
-SRCS              =  $(wildcard src/*.c)
-OBJS              := $(SRCS:.c=.o)
+INCLUDES          =  -Iinc
+SRC_DIR           =  src
+SRCS              :=  $(wildcard $(SRC_DIR)/*.c)
+BUILD_DIR         =  build
+RELEASE_DIR      =  release
+OBJS              := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
 
 # Compiler settings
 CC                = gcc
@@ -26,26 +29,37 @@ LDFLAGS           = -lm
 STACK_MEMORY_SIZE = 1024
 CFLAGS            += -DSTACK_MEMORY_SIZE=$(STACK_MEMORY_SIZE)
 
-
-# Ensure the build directory exists
-$(shell mkdir -p build)
 # Define the target executable
-TARGET          = build/$(PROJECT)
+TARGET            = $(BUILD_DIR)/$(RELEASE_DIR)/$(PROJECT)
 
-# PHONY commands
-.PHONY: all clean
+default: all
 
 # Default target
-all: $(TARGET)
+all: $(BUILD_DIR) $(TARGET)
 
 # Build rules
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 # Compile source files to object files
-%.o: %.c
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+# Ensure the build directory exists
+$(BUILD_DIR):
+	$(shell mkdir -p $(BUILD_DIR)/$(RELEASE_DIR))
 
 # Clean up build artifacts
 clean:
-	rm -rf build/ $(OBJS)
+	rm -rf $(BUILD_DIR)
+
+# PHONY commands
+.PHONY: all clean
+
+parser:
+# 	@echo "Parsing source files..."
+# 	@for file in $(SRCS); do \
+# 		echo "Parsing $$file..."; \
+# 		$(CC) $(CFLAGS) -E $$file; \
+# 	done
+	$(CC) -DSTACK_MEMORY_SIZE=$(STACK_MEMORY_SIZE) -Iinclude src/parser.c -o build/parser
