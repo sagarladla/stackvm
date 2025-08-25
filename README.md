@@ -47,3 +47,5 @@ During lifetime of machine, it passes though various states and stages:
 - **FETCH:** It fetches the instruction from memory
 - **DECODE:** Decodes the type of instruction [operator or operand]
 - **EXECUTE:** Performs action based on decoded output.
+
+_Inspiration: [@Philip Bohun](https://github.com/pbohun)_
